@@ -13,27 +13,13 @@ class Pokemon:
     
     # defenimos el metodo para mostar el hp actual
     @property
-    def hp_actual(self):
-        return self.__hp_actual
+    def __hp_actual(self):
+        return self.__hp_actual9
     
     # defenimos el metodo para mostar la energia actual
     @property
-    def ep_actual(self):
-        return self.__ep_actual
+    def __energia_actual(self):
+        return self.__energia_actual
     
-
-# Creamos clases hijas para cada tipo de Pokemon
-class PokemonAgua(Pokemon):
-    pass
-
-class PokemonFuego(Pokemon):
-    pass
-
-class PokemonPlanta(Pokemon):
-    pass
-
-class PokemonElectrico(Pokemon):
-    pass
-
 
     
