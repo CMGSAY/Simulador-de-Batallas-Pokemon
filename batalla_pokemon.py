@@ -1,7 +1,7 @@
 # batalla_pokemon.py
 
 import random
-from pokedex import CATALOGO_POKEMON, mostrar_catalogo
+from pokedex import CATALOGO_POKEMON, mostrar_catalogo_disponible
 
 from pokemon_agua import PokemonAgua
 from pokemon_fuego import PokemonFuego
@@ -29,54 +29,66 @@ def instanciar_pokemon(datos):
         return PokemonElectrico(nombre, hp_max, ep_max)
 
 
-def elegir_pokemon(jugador):
+def elegir_pokemon(jugador_id):
 
-    mostrar_catalogo()
+    mostrar_catalogo_disponible()
 
     while True:
 
         try:
-
-            opcion = int(input(f"Jugador {jugador} elija su Pokémon: "))
+            opcion = input(f"Jugador {jugador_id}, elija su Pokémon: ")
 
             if opcion in CATALOGO_POKEMON:
 
                 datos = CATALOGO_POKEMON[opcion]
                 pokemon = instanciar_pokemon(datos)
 
-                print(f"{pokemon.nombre} elegido")
-                return pokemon
+                print(f"¡Has seleccionado a {pokemon.nombre}!")
+                return pokemon   # ← IMPORTANTE
+
+            else:
+                print("Número fuera de rango.")
 
         except ValueError:
-            print("Entrada inválida")
+            print("Entrada inválida.")
 
 
 def elegir_accion_pc():
     return random.choice([1, 2, 3])
 
 
-def ejecutar_turno(pokemon, oponente, es_pc=False):
+def ejecutar_turno(pokemon_activo, pokemon_oponente, es_pc=False):
 
-    print(f"\nTurno de {pokemon.nombre}")
+    print("\n" + "="*40)
+    print(f"Turno de {pokemon_activo.nombre}")
+    print("="*40)
+
+    print(f"{pokemon_activo.nombre}")
+    print(f"HP: {pokemon_activo.hp_actual}/{pokemon_activo.hp_maximo}")
+    print(f"Energía: {pokemon_activo.energia_actual}/{pokemon_activo.energia_maxima}")
+
+    print("\nOponente:", pokemon_oponente.nombre)
+    print(f"HP Oponente: {pokemon_oponente.hp_actual}/{pokemon_oponente.hp_maximo}")
+
+    print("\nAcciones:")
+    print("1. Atacar")
+    print("2. Defender")
+    print("3. Descansar")
 
     if es_pc:
         accion = elegir_accion_pc()
-
+        print(f"Computadora elige: {accion}")
     else:
-        print("1. Atacar")
-        print("2. Defender")
-        print("3. Descansar")
+        accion = input("Opción: ")
 
-        accion = int(input("Opción: "))
+    if accion == "1" or accion == 1:
+        pokemon_activo.atacar(pokemon_oponente)
 
-    if accion == 1:
-        pokemon.atacar(oponente)
+    elif accion == "2" or accion == 2:
+        pokemon_activo.defender()
 
-    elif accion == 2:
-        pokemon.defender()
-
-    elif accion == 3:
-        pokemon.descansar()
+    elif accion == "3" or accion == 3:
+        pokemon_activo.descansar()
 
 
 def batalla(p1, p2, modo_pc):

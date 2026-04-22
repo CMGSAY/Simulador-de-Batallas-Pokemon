@@ -34,5 +34,3 @@ def mostrar_catalogo_disponible():
 print('='*55)
 print("        CATÁLOGO POKÉMON CARGADO CON ÉXITO")
 print('='*55)
-
-print(mostrar_catalogo_disponible())
